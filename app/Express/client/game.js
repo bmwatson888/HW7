@@ -7,6 +7,13 @@ var main = function () {
     };
 
     $.getJSON("/results.json", insertIntoDOM);
+
+    $("h3").text("Loading...");
+    var url = "http://localhost:3000/listdb";
+
+    $.getJSON(url, function(data) {
+        $("h3").text("test json: " + data[0].brian0);
+    });
 };
 
 $(document).ready(main);
@@ -19,7 +26,7 @@ function postURL () {
     var yourURL = function (myJson) {
         var obj = JSON.parse(myJson)
         
-        $("p").html("Your URL: <a href='" + obj.shortURL + "' target='_blank'>" + obj.shortURL + "</a>");
+        $("p").html("Your URL: <a href='http://" + obj.shortURL + "' target='_blank'>" + obj.shortURL + "</a>");
     };
     $.post("/" + name, yourURL, 'json');
 };

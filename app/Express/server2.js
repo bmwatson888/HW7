@@ -10,7 +10,6 @@ var express = require("express"),
 	testUrl,
 	data,
 	found = 0,
-	list = "{",
 	myJson = '{}';
 
 app.use(express.static(__dirname + "/client"));
@@ -26,26 +25,25 @@ app.get("/listdb", function (req, res) {
 
     client.keys("shorturls:*", function (err, reply) {
     	var keys = Object.keys(reply);
+    	var count = 0;
+    	var list = "{";
 
     	keys.forEach(function(l){
     		client.hget(reply[l], function (err,obj){
     			data = reply[l];
-    			//console.log(data);
-    			list = list + data + ",";
+    			list = list + '"brian' + count + '":"' + data + '",';
+    			count++;
     		});
     	});
 
     	setTimeout(function(){
+    		list = list.substring(0, list.length - 1);
+    		list = list.replace(/shorturls:/g,"");
     		list = list + "}";
-    		list.replace("/shorturls:/g","");
-    		res.json(list);	
-    		//list = "{";
-    	},5000);  	
-
-    	setTimeout(function(){
-			console.log(list);
-    	},7000);
-		
+    		console.log(list);
+    		var obj = JSON.parse(list);
+    		res.json(obj);	
+    	},5000);  			
     });
 });
 
@@ -111,13 +109,13 @@ function processURL() {
     				//return the JSON object
     				testUrl = genUrl;
     				setTimeout(function(){
-    					myJson = '{"shortURL": "http://localhost:3000/'+testUrl+'"}';
+    					myJson = '{"shortURL": "localhost:3000/'+testUrl+'"}';
 					},500);
     			} else {
     				//return the JSON object
 					testUrl = obj;
 					setTimeout(function(){
-    					myJson = '{"shortURL": "http://'+testUrl+'"}';
+    					myJson = '{"shortURL": "'+testUrl+'"}';
 					},500);
     			}
     		});
@@ -125,7 +123,7 @@ function processURL() {
     		//return the JSON object
 			testUrl = obj;
 			setTimeout(function(){
-    			myJson = '{"shortURL": "http://localhost:3000/'+testUrl+'"}';
+    			myJson = '{"shortURL": "localhost:3000/'+testUrl+'"}';
 			},500);
     	}
     });

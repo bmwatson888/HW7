@@ -13,7 +13,7 @@ $(document).ready(main);
 
 function postURL () {
     var name = document.getElementById("name").value;
-
+    name = name.replace("/","-slashie-");
     //your code to be executed after 1 seconds
      
     var yourURL = function (myJson) {

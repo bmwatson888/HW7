@@ -13,10 +13,13 @@ $(document).ready(main);
 
 function postURL () {
     var name = document.getElementById("name").value;
+
+    //your code to be executed after 1 seconds
+     
     var yourURL = function (myJson) {
         var obj = JSON.parse(myJson)
-        $("p").html("Your URL: " + obj.shortURL);
+        
+        $("p").html("Your URL: <a href='" + obj.shortURL + "' target='_blank'>" + obj.shortURL + "</a>");
     };
-
     $.post("/" + name, yourURL, 'json');
 };
